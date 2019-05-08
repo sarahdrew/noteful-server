@@ -4,8 +4,12 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const { NODE_ENV } = require("./config");
+const notesRouter = require('./notes/notes-router');
+const foldersRouter = require('./folders/folders-router');
 
 const app = express();
+
+
 
 const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 
@@ -13,9 +17,14 @@ app.use(morgan(morganOption));
 app.use(cors());
 app.use(helmet());
 
+app.use('/api/notes', notesRouter)
+app.use('/api/folders', foldersRouter)
+
+
 app.get("/", (req, res) => {
   res.send("Hello, world!");
 });
+
 
 
 app.use(function errorHandler(error, req, res, next) {
@@ -29,10 +38,5 @@ app.use(function errorHandler(error, req, res, next) {
   res.status(500).json(response);
 });
 
-const PORT = process.env.PORT || 8000
-
-// app.listen(PORT, () => {
-//   console.log(`Server listening at http://localhost:${PORT}`)
-// })
 
 module.exports = app;
