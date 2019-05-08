@@ -25,6 +25,9 @@ app.get("/", (req, res) => {
   res.send("Hello, world! here's a test");
 });
 
+app.get("/api/notes", (req, res) => {
+  res.send(notesRouter)
+})
 
 
 app.use(function errorHandler(error, req, res, next) {
