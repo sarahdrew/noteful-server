@@ -29,6 +29,9 @@ app.get("/api/notes", (req, res) => {
   res.send(notesRouter)
 })
 
+app.get("/api/folders", (req, res) => {
+  res.send(foldersRouter)
+})
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
