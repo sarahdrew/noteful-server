@@ -27,6 +27,8 @@ notesRouter
     })
     .post(jsonParser, (req, res, next) => {
         const { name, folder_id, content } = req.body;
+        folder_id = parseInt(folder_id);
+        console.log(folder_id);
         if (!name) {
             return res.status(400).json({
                 error: { message: 'Missing name in request body' }
