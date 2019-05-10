@@ -26,7 +26,7 @@ notesRouter
             .catch((error) => console.log(error));
     })
     .post(jsonParser, (req, res, next) => {
-        const { name, folder_id, content } = req.body;
+        let { name, folder_id, content } = req.body;
         folder_id = parseInt(folder_id);
         console.log(folder_id);
         if (!name) {
