@@ -1,7 +1,9 @@
-INSERT INTO noteful_folders (id, name)  
+-- psql command: psql -U postgres -d noteful -f ./seeds/seed/noteful_folders.sql
+
+INSERT INTO folders (id, name)  
 VALUES
   (1, 'Important'),
   (2, 'Super'),
   (3, 'Spangley'); 
 
-  ALTER SEQUENCE noteful_folders RESTART WITH 4; 
+  ALTER SEQUENCE folders RESTART WITH 4; 
