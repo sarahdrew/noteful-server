@@ -44,11 +44,24 @@ foldersRouter
     });
 
 foldersRouter
+    .route('/folders')
+    .get((req, res, next) => {
+        const knexInstance = req.app.get('db');
+        FoldersService.getAllFolders(knexInstance)
+            .then(folders => {
+                res.json(folders.map(serializeFolder));
+            })
+            .catch(next);
+    })
+
+foldersRouter
     .route('/:folder_id')
     .all((req, res, next) => {
+        console.log(req.param)
         FoldersService.getFolderById(
             req.app.get('db'),
             req.param.folder_id
+
         )
             .then(folder => {
                 if (!folder) {
@@ -62,6 +75,7 @@ foldersRouter
             .catch(next);
     })
     .get((req, res, next) => {
+        console.log('HELLO!!')
         res.json(serializeFolder(res.folder));
     })
     .delete((req, res, next) => {

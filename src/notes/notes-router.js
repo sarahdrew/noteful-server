@@ -26,9 +26,10 @@ notesRouter
             .catch((error) => console.log(error));
     })
     .post(jsonParser, (req, res, next) => {
+        console.log(`post note req.body `, req.body);
         let { name, folder_id, content } = req.body;
         folder_id = parseInt(folder_id);
-        console.log(folder_id);
+
         if (!name) {
             return res.status(400).json({
                 error: { message: 'Missing name in request body' }
@@ -53,7 +54,7 @@ notesRouter
                     .json(serializeNote(note));
             })
             .catch(next);
-    });
+    })
 
 notesRouter
     .route('/:notes_id')
@@ -119,5 +120,19 @@ notesRouter
             })
             .catch(next);
     });
+
+notesRouter
+    .route('/folder/:folder_id')
+    .get((req, res, next) => {
+        const knexInstance = req.app.get('db');
+        console.log(`req.param is `, req.params);
+        NotesService.getNotesFromFolder(knexInstance, req.params.folder_id)
+            .then(notes => {
+                console.log(notes)
+                res.json(notes.map(serializeNote));
+            })
+            .catch((error) => console.log(error));
+    })
+
 
 module.exports = notesRouter; 
