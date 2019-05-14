@@ -7,13 +7,15 @@ const NotesService = {
 
     getNoteById(knex, id) {
         //undefined id
-        return knex.from('notes').select('*').where('id', id).first();
+        console.log(` here is id on get note by id `, id.notes_id);
+        return knex.from('notes').select('*').where('id', id.notes_id).first();
     },
 
     insertNote(knex, newNote) {
         return knex.insert(newNote).into('notes').returning('*').then(rows => rows[0]);
     },
     deleteNote(knex, id) {
+        console.log(`deleteNote's id is `, id);
         return knex('notes').where('id', id).delete();
     },
     updateNote(knex, id, newNotesFields) {

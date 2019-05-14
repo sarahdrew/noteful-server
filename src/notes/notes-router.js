@@ -59,9 +59,10 @@ notesRouter
 notesRouter
     .route('/:notes_id')
     .all((req, res, next) => {
+        console.log(`req params note id`, req.params.note_id)
         NotesService.getNoteById(
             req.app.get('db'),
-            req.param.note_id
+            req.params
         )
             .then(note => {
                 if (!note) {
@@ -75,12 +76,20 @@ notesRouter
             .catch(next);
     })
     .get((req, res, next) => {
-        res.json(serializeNote(res.note));
+        const knexInstance = req.app.get('db');
+        const { note_id } = req.params;
+        NotesService.getNoteById(knexInstance, note_id)
+            .then(note => {
+                res.json(serializeNote(res.note));
+            })
+
     })
     .delete((req, res, next) => {
+        const { notes_id } = req.params;
+        console.log(`req params note id is: `, req.params.notes_id)
         NotesService.deleteNote(
             req.app.get('db'),
-            req.params.note_id
+            notes_id
         )
             .then(() => {
                 res.status(204).end();
